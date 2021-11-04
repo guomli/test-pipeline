@@ -16,8 +16,8 @@ pipeline {
     stage('Build Docker Image') {
       steps {
         container('docker') {  
-          sh "docker build -t vividlukeloresch/promo-app:dev ."  // when we run docker in this step, we're running it via a shell on the docker build-pod container, 
-          sh "docker push vividlukeloresch/promo-app:dev"        // which is just connecting to the host docker deaemon
+          sh "buildah bud --tls-verify=false --storage-driver=vfs --layers -f Dockerfile -t demo/test-pipeline:dev ."
+          sh "buildah push --storage-driver=vfs --tls-verify=false demo/test-pipeline:dev docker://registry.k8s.example.com/demo/test-pipeline:dev"
         }
       }
     }

@@ -13,13 +13,12 @@ spec:
         limits:
           memory: "1Gi"
     - name: docker
-      image: docker:18.06.1
+      image: registry.access.redhat.com/ubi8/buildah:8.4-17
       command: ["tail", "-f", "/dev/null"]
       imagePullPolicy: Always
       volumeMounts:
         - name: docker
-          mountPath: /var/run/docker.sock # We use the k8s host docker engine
+          mountPath: /var/lib/containers # We use the k8s host docker engine
   volumes:
     - name: docker
-      hostPath:
-        path: /var/run/docker.sock
+      emptyDir: {}
